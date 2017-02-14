@@ -307,6 +307,28 @@
         {
           "name": "expression",
           "type": "String",
+          "info": "Url-encoded math expression on which you want to operate. Expression examlpe: -1, result: 1",
+          "required": true
+        }
+      ],
+      "callbacks": [
+        {
+          "name": "error",
+          "info": "Error"
+        },
+        {
+          "name": "success",
+          "info": "Success"
+        }
+      ]
+    },
+    {
+      "name": "getLogarithm",
+      "description": "Get logarithm",
+      "args": [
+        {
+          "name": "expression",
+          "type": "String",
           "info": "Url-encoded math expression on which you want to operate. Expression examlpe: 2l8, result: 3",
           "required": true
         }
