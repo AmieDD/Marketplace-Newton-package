@@ -63,7 +63,7 @@ class Router
         // Get method for vendor route
         if(
             isset($this->custom[$block['name']]['method'])&&
-            in_array($this->custom[$block['name']]['method'], ['GET', 'POST', 'PUT', 'DELETE', 'GET-NoAccess', 'POST-Access'])
+            in_array($this->custom[$block['name']]['method'], ['GET'])
         ){
             $method = $this->custom[$block['name']]['method'];
         }else{
@@ -98,17 +98,17 @@ class Router
 
             // Put param in Vendor Url if it need
             $vendorUrl = $blockCustom['vendorUrl'];
-            if(strpos($vendorUrl, '[[/r/{{subreddit}}]]')){
-                $replacement = (isset($inputPram['subreddit'])&&strlen($inputPram['subreddit'])>0)?'/r/' . $inputPram['subreddit']:'';
-                $vendorUrl = str_replace('[[/r/{{subreddit}}]]', $replacement, $vendorUrl);
-            }
             $urlPart = [];
             preg_match_all('/\{\{[0-9a-z_]+\}\}/ui', $vendorUrl, $urlPart);
             if(count($urlPart[0])>0){
                 foreach ($urlPart[0] as $onePart) {
                     $oneUrlPart = str_replace('}}', '', str_replace('{{', '', $onePart));
                     if (isset($inputPram[$oneUrlPart])&&strlen($inputPram[$oneUrlPart])>0) {
-                        $vendorUrl = str_replace('{{' . $oneUrlPart . '}}', $inputPram[$oneUrlPart], $vendorUrl);
+                        $paramVal = $inputPram[$oneUrlPart];
+                        if($oneUrlPart=='expression'&&$paramVal!='0'){
+                            $paramVal=urlencode($paramVal);
+                        }
+                        $vendorUrl = str_replace('{{' . $oneUrlPart . '}}', $paramVal, $vendorUrl);
                     } else {
                         $response = [];
                         $response['callback'] = 'error';
@@ -204,7 +204,7 @@ class Router
         if(count($requiredPram)>0){
             $requiredPramCheck = [];
             foreach($requiredPram as $oneParam){
-                if(!isset($inputParam[$oneParam]) || $inputParam[$oneParam] == false){
+                if(!isset($inputParam[$oneParam]) || $inputParam[$oneParam] === false){
                     array_push($requiredPramCheck, $oneParam);
                 }
             }
@@ -248,6 +248,9 @@ class Router
             if(is_numeric($paramVal)){
                 $paramVal = intval($paramVal);
             }
+            if($paramName=='expression'&&$paramVal!='0'){
+                $paramVal = urlencode($paramVal);
+            }
             if(count($dictionary)>0) {
                 if ($paramVal != false && isset($dictionary[$paramName])) {
                     $result[$dictionary[$paramName]] = $paramVal;
@@ -270,29 +273,19 @@ class Router
 
         $result = [];
         try {
+            // Setup client
+            $clientSetup = [
+                'headers' => [
+                    'Content-Type' => 'application/x-www-form-urlencoded',
+                ] ];
 
-            if($method == 'POST-Access'){
-                $method = 'POST';
-                $clientSetup = $sendBody;
-            }elseif($method == 'GET-NoAccess'){
-                $method = 'GET';
+            $clientSetup['headers']['Authorization'] = 'Bearer ' . $accessToken;
+            $clientSetup['headers']['User-Agent'] = 'RapidAPI-' . $appClientId;
+
+            if($method == 'GET'){
                 $clientSetup['query'] = json_decode($sendBody, true);
-                $clientSetup['headers']['User-Agent'] = 'RapidAPI-' . $appClientId;
             }else{
-                // Setup client
-                $clientSetup = [
-                    'headers' => [
-                        'Content-Type' => 'application/x-www-form-urlencoded',
-                    ] ];
-
-                $clientSetup['headers']['Authorization'] = 'Bearer ' . $accessToken;
-                $clientSetup['headers']['User-Agent'] = 'RapidAPI-' . $appClientId;
-
-                if($method == 'GET'){
-                    $clientSetup['query'] = json_decode($sendBody, true);
-                }else{
-                    $clientSetup['form_params'] = json_decode($sendBody, true);
-                }
+                $clientSetup['form_params'] = json_decode($sendBody, true);
             }
 
             $vendorResponse = $this->http->request($method, $url, $clientSetup);

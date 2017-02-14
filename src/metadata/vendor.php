@@ -133,7 +133,7 @@ return array (
                 array (
                     'name' => 'expression',
                     'type' => 'String',
-                    'info' => 'Url-encoded math expression on which you want to operate. Expression examlpe: 2lx^3, result: 12 x + -16',
+                    'info' => 'Url-encoded math expression on which you want to operate. Expression examlpe: 2|x^3, result: 12 x + -16',
                     'required' => true,
                 ),
             ),
@@ -155,7 +155,7 @@ return array (
                 array (
                     'name' => 'expression',
                     'type' => 'String',
-                    'info' => 'Url-encoded math expression on which you want to operate. Expression examlpe: 2:4lx^3, result: 60',
+                    'info' => 'Url-encoded math expression on which you want to operate. Expression examlpe: 2:4|x^3, result: 60',
                     'required' => true,
                 ),
             ),
@@ -331,7 +331,7 @@ return array (
                 array (
                     'name' => 'expression',
                     'type' => 'String',
-                    'info' => 'Url-encoded math expression on which you want to operate. Expression examlpe: 2l8, result: 3',
+                    'info' => 'Url-encoded math expression on which you want to operate. Expression examlpe: 2|8, result: 3',
                     'required' => true,
                 ),
             ),
