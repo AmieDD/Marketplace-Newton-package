@@ -1,4 +1,4 @@
-[![](https://scdn.rapidapi.com/RapidAPI_banner.png)](https://rapidapi.com/package/Newton/functions?utm_source=RapidAPIGitHub_Functions&utm_medium=button&utm_content=RapidAPI_GitHub)
+[![](https://scdn.rapidapi.com/RapidAPI_banner.png)](https://rapidapi.com/package/Newton/functions?utm_source=RapidAPIGitHub_NewtonFunctions&utm_medium=button&utm_content=RapidAPI_GitHub)
 
 # Newton Package
 Newton does anything from numerical calculation to symbolic math parsing.
