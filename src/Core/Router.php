@@ -106,6 +106,7 @@ class Router
                     if (isset($inputPram[$oneUrlPart])&&strlen($inputPram[$oneUrlPart])>0) {
                         $paramVal = $inputPram[$oneUrlPart];
                         if($oneUrlPart=='expression'&&$paramVal!='0'){
+                            $paramVal=str_replace(' ', '', $paramVal);
                             $paramVal=urlencode($paramVal);
                         }
                         $vendorUrl = str_replace('{{' . $oneUrlPart . '}}', $paramVal, $vendorUrl);

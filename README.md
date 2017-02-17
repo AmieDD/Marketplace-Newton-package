@@ -16,7 +16,7 @@ Factoring expression
 
 | Field     | Type  | Description
 |-----------|-------|----------
-| expression| String| Url-encoded math expression on which you want to operate. Expression examlpe: x^2 + 2x, result: x (x + 2)
+| expression| String| Url-encoded math expression on which you want to operate. Expression examlpe: x^2+2x, result: x (x + 2)
 
 ## Newton.findDerivative
 Find derivative
