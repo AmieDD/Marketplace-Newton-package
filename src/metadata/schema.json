@@ -539,8 +539,14 @@
                 {
                     "name": "expression",
                     "type": "String",
-                    "info": "Url-encoded math expression on which you want to operate. Expression examlpe: 2|8, result: 3",
+                    "info": "Url-encoded math expression on which you want to operate. Expression examlpe: 10|5, result: 0.6989700043360187",
                     "required": true
+                },
+                {
+                    "name": "test",
+                    "type": "String",
+                    "info": "test param",
+                    "required": false
                 }
             ],
             "vendorRequest": {
